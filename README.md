@@ -10,6 +10,7 @@
 
 예를 들어 사람의 이름과 나이를 받는 Person클래스가 있고, 이 클래스로 이루어진 리스트 내의 데이터 중에서 가장 연장자를 찾고 싶다고 가정하자.
 람다를 사용해보지 않았다면 보통 루프를 돌려서 검색 구현을 할 것이다. 이러한 형태로.   
+
 <code>
 <pre>
 fun findTheOldest(people: List<Person>) {
@@ -25,19 +26,25 @@ fun findTheOldest(people: List<Person>) {
  }
 </code>
 </pre>
+
 루프를 돌린 코드를 보면 인자 하나하나씩의 나이를 꺼내와서 새롭게 꺼내진 값이 저장된 maxAge보다 클 경우 저장하고 해당 person을 thOldest에도 넣어 갱신해준다. 이렇게 해도 문제는 없겠지만, 생각보다 많은 코드들이 들어가기 때문에 실수를 할 가능성도 높아진다.   
 
 하지만 코틀린에서는 어떨까?   
+
 <code>
 <pre>
 val people = listOf(Person("JMJ", 29), Person("JMT", 27))
 println(people.maxBy{it.age})
 </code>  
 </pre>
+
 이렇게나 짧아진다. 저기서 나오는 it은 컬렉션의 원소를 인자로 받은 것을 지칭한다.  
-이런 식으로 단지 함수나 프로퍼티를 반환하는 역할을 수행하는 람다는 멤버 참조로 대치할 수 있다.   
+이런 식으로 단지 함수나 프로퍼티를 반환하는 역할을 수행하는 람다는 멤버 참조로 대치할 수 있다.  
+
 <code>
 <pre>
-people.maxBy(Person::age)
+people.maxBy(){p:Person -> p.age}
+만약 람다가 어떤 함수의 유일한 인자이고 괄호 뒤에 람다를 썼다면 호출 시 이렇게 변형할 수 있다.
+people.maxBy{p:Person -> p.age}
 </code>
 </pre>
